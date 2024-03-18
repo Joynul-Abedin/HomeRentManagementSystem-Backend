@@ -55,6 +55,10 @@ const tenantSchema = new Schema({
         type: String,
         required: false,
     },
+    qrCode: { // Add this field for storing QR code data
+        type: String,
+        required: false,
+    },
 });
 
 module.exports = model('Tenant', tenantSchema);
