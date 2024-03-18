@@ -5,8 +5,8 @@ const UserService = require('../Services/UserService');
 // User registration route
 router.post('/register', async (req, res) => {
   try {
-    const roles = req.body.roles || ['tenant'];
-    const user = await UserService.register(req.body.username, req.body.password, roles);
+    const roles = req.body.roles || ['manager'];
+    const user = await UserService.register(req.body.email ,req.body.username, req.body.password, roles);
     console.log(user);
     res.json(user);
   } catch (error) {
