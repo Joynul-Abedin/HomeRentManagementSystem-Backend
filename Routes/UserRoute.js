@@ -18,8 +18,8 @@ router.post('/register', async (req, res) => {
 // User login route
 router.post('/login', async (req, res) => {
   try {
-    const user = await UserService.login(req.body.username, req.body.password);
-    res.send({ message: 'Login successful', user: { username: user.username } });
+    const user = await UserService.login(req.body.email, req.body.username, req.body.password);
+    res.send({ message: 'Login successful', user: { email: user.email, username: user.username } });
   } catch (error) {
     res.status(401).send(error.message);
   }

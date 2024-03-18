@@ -21,19 +21,36 @@ class UserService {
     return userWithoutPassword;
   }
 
-  async login(username, password) {
-    const user = await User.findOne({ username });
-    if (!user) {
-      throw new Error('Authentication failed. User not found.');
-    }
-    console.log(user);
-    if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        throw new Error('Authentication failed. Wrong password.');
+  async login(email, username, password) {
+    if (email) {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error('Authentication failed. User not found.');
       }
-      const { password: _, ...userWithoutPassword } = user.toObject();
-      return userWithoutPassword;
+      if (user) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          throw new Error('Authentication failed. Wrong password.');
+        }
+        const { password: _, ...userWithoutPassword } = user.toObject();
+        return userWithoutPassword;
+      }
+    }
+    if (username) {
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        throw new Error('Authentication failed. User not found.');
+      }
+      if (user) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          throw new Error('Authentication failed. Wrong password.');
+        }
+        const { password: _, ...userWithoutPassword } = user.toObject();
+        return userWithoutPassword;
+      }
     }
   }
 }
