@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../Models/User');
 class UserService {
-  async register(username, password, roles = ['tenant']) {
+  async register(username, password, roles = ['manager']) {
     let user = await User.findOne({ username });
     if (user) {
       throw new Error('User already registered.');
