@@ -6,8 +6,6 @@ const PaymentService = require('../Services/PaymntService');
 router.post('/create', async (req, res) => {
     try {
         const { tenant, month, ...paymentDetails } = req.body;
-        console.log("Request body:", req.body);
-        console.log("Received payment details:", paymentDetails);
         const payment = await PaymentService.createOrUpdatePayment(tenant, month, paymentDetails);
         res.json(payment);
     } catch (error) {

@@ -4,7 +4,6 @@ const TenantService = require('../Services/TenantService');
 
 // Create a new tenant
 router.post('/', async (req, res) => {
-    console.log(req.body);
   try {
     const tenant = await TenantService.createTenant(req.body);
     res.json(tenant);

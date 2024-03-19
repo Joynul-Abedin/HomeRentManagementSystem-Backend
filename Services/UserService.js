@@ -7,7 +7,6 @@ class UserService {
     if (user) {
       throw new Error('User already registered.');
     }
-    console.log('password-', password);
     const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({
       email,
