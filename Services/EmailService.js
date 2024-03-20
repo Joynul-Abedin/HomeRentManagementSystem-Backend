@@ -1,14 +1,15 @@
 // In a new file, e.g., emailService.js, or at the top of UserService.js
 const e = require('express');
 const nodemailer = require('nodemailer');
+const env = require('dotenv');
 
 async function sendResetEmail(email, token) {
     // Create a transporter for nodemailer
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'triadiots@gmail.com', // Your Gmail address
-            pass: 'vwxq ydpf xpjl fuin', // Your Gmail password or App Password
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD,
         },
     });
 
