@@ -24,4 +24,28 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Request password reset route
+router.post('/password-reset', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const result = await UserService.requestPasswordReset(email);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// In your routes file
+router.post('/reset-password/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+    const result = await UserService.resetPassword(token, newPassword);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 module.exports = router;

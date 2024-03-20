@@ -46,7 +46,7 @@ class PaymentService {
                 $lte: endDate
             }
         });
-    }    
+    }
 
     async listPaymentsForTenant(tenantId) {
         return await Payment.find({ tenant: tenantId }).sort({ month: -1 });
