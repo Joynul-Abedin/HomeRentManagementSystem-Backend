@@ -30,8 +30,23 @@ class PaymentService {
     }
 
     async getPaymentDetails(tenantId, month) {
-        return await Payment.findOne({ tenant: tenantId, month: new Date(month) });
-    }
+        const startDate = new Date(month);
+        startDate.setDate(1);
+        startDate.setHours(0, 0, 0, 0);
+
+        const endDate = new Date(startDate);
+        endDate.setMonth(startDate.getMonth() + 1);
+        endDate.setDate(0); 
+        endDate.setHours(23, 59, 59, 999);
+    
+        return await Payment.findOne({
+            tenant: tenantId,
+            month: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
+    }    
 
     async listPaymentsForTenant(tenantId) {
         return await Payment.find({ tenant: tenantId }).sort({ month: -1 });
