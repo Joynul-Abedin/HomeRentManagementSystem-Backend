@@ -1,7 +1,7 @@
 // In a new file, e.g., emailService.js, or at the top of UserService.js
 const e = require('express');
 const nodemailer = require('nodemailer');
-const env = require('dotenv');
+require('dotenv').config();
 
 async function sendResetEmail(email, token) {
     // Create a transporter for nodemailer
@@ -13,9 +13,8 @@ async function sendResetEmail(email, token) {
         },
     });
 
-    // Set up email data
     let mailOptions = {
-        from: '"Home Rent Management System" <help@hrms.com>', 
+        from: process.env.EMAIL_FROM, 
         to: email,
         subject: 'Password Reset Request',
         text: 'You requested a password reset.', 
