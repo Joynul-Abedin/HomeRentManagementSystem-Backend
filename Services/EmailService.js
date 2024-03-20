@@ -2,7 +2,7 @@
 const e = require('express');
 const nodemailer = require('nodemailer');
 
-async function sendResetEmail(email, resetUrl) {
+async function sendResetEmail(email, token) {
     // Create a transporter for nodemailer
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -14,12 +14,19 @@ async function sendResetEmail(email, resetUrl) {
 
     // Set up email data
     let mailOptions = {
-        from: '"Home Rent Management System" <triadiots@gmail.com>', // Sender address
-        to: email, // List of receivers
-        subject: 'Password Reset Request', // Subject line
-        text: 'You requested a password reset.', // Plain text body
-        html: `<p>You requested a password reset. Click <a href="${resetUrl}">here</a> to reset your password.</p>`, // HTML body
+        from: '"Home Rent Management System" <help@hrms.com>', 
+        to: email,
+        subject: 'Password Reset Request',
+        text: 'You requested a password reset.', 
+        html: `
+            <div style="text-align: center; margin: auto;">
+                <p>You requested a password reset. Use this token in the application to reset the password:</p>
+                <div style="border: 1px solid #000; padding: 10px; display: inline-block; margin: 10px auto; font-weight: bold;">
+                    ${token}
+                </div>
+            </div>`,
     };
+    
 
     // Send the email
     await transporter.sendMail(mailOptions);

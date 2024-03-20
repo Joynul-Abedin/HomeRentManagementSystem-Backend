@@ -68,10 +68,9 @@ class UserService {
 
     await user.save();
 
-    const resetUrl = `https://hrms-f96y.onrender.com/api/users/reset-password/${resetToken}`;
-    await sendResetEmail(email, resetUrl); // Implement this function according to your email service
+    await sendResetEmail(email, resetToken);
 
-    return { message: "If a user with that email is registered, they'll receive a password reset email.", token: resetToken};
+    return { message: "If a user with that email is registered, they'll receive a password reset email."};
   }
 
   // In UserService
