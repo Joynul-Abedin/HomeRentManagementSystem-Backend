@@ -1,4 +1,6 @@
 const Payment = require('../Models/Payment');
+const Tenant = require('../Models/Tenant');
+const tenantService = require('./TenantService');
 
 class PaymentService {
     async createOrUpdatePayment(tenantId, month, paymentDetails) {
@@ -54,6 +56,29 @@ class PaymentService {
 
     async listPayments() {
         return await Payment.find().sort({ month: -1 });
+    }
+
+    async getPaymentDetailsForMonth(tenantId) {
+        // Fetch tenant details
+        console.log("tenantId: ", tenantId);
+
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        // Fetch payment details for the tenant for the current month
+        const payment = await Payment.findOne({
+            tenant: tenantId,
+            month: {
+                $gte: startOfMonth,
+                $lte: endOfMonth
+            }
+        });
+
+        console.log("payment: ", payment);
+
+        // Return both tenant and payment details
+        return { payment };
     }
 }
 
