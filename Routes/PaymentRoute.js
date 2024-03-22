@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const PaymentService = require('../Services/PaymntService');
 
+router.get('/', async (req, res) => {
+    try {
+        const payments = await PaymentService.listPayments();
+        res.json(payments);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
 
 router.post('/create', async (req, res) => {
     try {

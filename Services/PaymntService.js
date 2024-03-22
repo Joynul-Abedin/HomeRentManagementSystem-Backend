@@ -51,6 +51,10 @@ class PaymentService {
     async listPaymentsForTenant(tenantId) {
         return await Payment.find({ tenant: tenantId }).sort({ month: -1 });
     }
+
+    async listPayments() {
+        return await Payment.find().sort({ month: -1 });
+    }
 }
 
 module.exports = new PaymentService();
