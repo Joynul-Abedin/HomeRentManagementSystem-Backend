@@ -4,6 +4,8 @@ const connectDB = require('./Database/database');
 const authRouter = require('./Routes/UserRoute');
 const tenantRoutes = require('./Routes/TenantRoutes');
 const paymentRoutes = require('./Routes/PaymentRoute');
+const homeSettingsRoutes = require('./Routes/HomeSettingsRoutes');
+
 
 
 // const cors = require('cors');
@@ -17,6 +19,8 @@ app.use(json());
 app.use('/api/users', authRouter);
 app.use('/api/tenants', tenantRoutes);
 app.use('/api/tenant/payments', paymentRoutes);
+app.use('/api/settings', homeSettingsRoutes);
+
 
 // Enable CORS for all routes
 // app.use(cors());
