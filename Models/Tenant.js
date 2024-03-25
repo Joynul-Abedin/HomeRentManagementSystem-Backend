@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const Payment = require('./Payment');
 
 const tenantSchema = new Schema({
     name: {
@@ -60,5 +61,12 @@ const tenantSchema = new Schema({
         required: false,
     },
 });
+
+// Attach post-delete hook directly to the schema in the tenant model file
+tenantSchema.post('findOneAndDelete', async function(doc) {
+    if (doc) {
+      await Payment.deleteMany({ tenant: doc._id });
+    }
+  });
 
 module.exports = model('Tenant', tenantSchema);
