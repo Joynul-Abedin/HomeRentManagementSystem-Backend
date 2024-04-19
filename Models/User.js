@@ -18,6 +18,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  phoneNumber: {
+    type: String,
+    default: null
+  },
+  imageUrl: {
+    type: String,
+    default: null
+  },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   roles: [{

@@ -14,6 +14,8 @@ class UserService {
       email,
       username,
       password: hashedPassword,
+      phoneNumber: "",
+      imageUrl: "",
       roles
     });
 
@@ -61,19 +63,16 @@ class UserService {
       throw new Error('User does not exist.');
     }
 
-    // Generate a token
     const resetToken = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
 
     await user.save();
-
     await sendResetEmail(email, resetToken);
 
     return { message: "If a user with that email is registered, they'll receive a password reset email."};
   }
 
-  // In UserService
   async resetPassword(token, newPassword) {
     const user = await User.findOne({
       resetPasswordToken: token,
@@ -84,7 +83,6 @@ class UserService {
       throw new Error('Password reset token is invalid or has expired.');
     }
 
-    // Set the new password
     user.password = await bcrypt.hash(newPassword, 10);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
@@ -93,8 +91,39 @@ class UserService {
     return { message: 'Password has been updated.' };
   }
 
+  async updateUser(id, updates) {
+    const { email, username, ...otherUpdates } = updates;
+
+    // Optional: Check for email and username uniqueness if they are updated
+    if (email) {
+      const existingEmail = await User.findOne({ _id: { $ne: id }, email });
+      if (existingEmail) {
+        throw new Error('Email already in use by another account.');
+      }
+    }
+    if (username) {
+      const existingUsername = await User.findOne({ _id: { $ne: id }, username });
+      if (existingUsername) {
+        throw new Error('Username already in use by another account.');
+      }
+    }
+
+    const user = await User.findByIdAndUpdate(id, { email, username, ...otherUpdates }, { new: true });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    return user;
+  }
+
+  // Get user by id
+  async getUserById(id) {
+    const
+      user = await User.findById(id);
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    return user;
+  }
 }
 
 module.exports = new UserService();
-
-

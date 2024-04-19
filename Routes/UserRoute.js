@@ -24,6 +24,26 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Get User By id
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await UserService.getUserById(req.params.id);
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Update User Info
+router.put('/update/:id', async (req, res) => {
+  try {
+    const user = await UserService.updateUser(req.params.id, req.body);
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Request password reset route
 router.post('/password-reset', async (req, res) => {
   try {
