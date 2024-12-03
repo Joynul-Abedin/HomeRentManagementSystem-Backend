@@ -81,6 +81,8 @@ class TenantService {
   // Get a single tenant by ID along with their payment details for the current month
   async getTenantAndPaymentDetails(tenantId) {
     const tenant = await Tenant.findById(tenantId);
+    console.log(tenant);
+    
     if (!tenant) {
       throw new Error('Tenant not found');
     }

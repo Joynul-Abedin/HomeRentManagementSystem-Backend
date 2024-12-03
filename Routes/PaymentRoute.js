@@ -38,6 +38,8 @@ router.get('/:tenantId', async (req, res) => {
     try {
         const { tenantId } = req.params;
         const payments = await PaymentService.listPaymentsForTenant(tenantId);
+        console.log(payments);
+        
         res.json(payments);
     } catch (error) {
         res.status(400).json({ message: error.message });

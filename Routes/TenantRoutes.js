@@ -60,11 +60,11 @@ router.get('/', async (req, res) => {
 router.get('/current-payment/:id', async (req, res) => {
   try {
     console.log(req.params.id);
-    const { tenant, payment } = await TenantService.getTenantAndPaymentDetails(req.params.id);
+    const { tenant, paymentDetails } = await TenantService.getTenantAndPaymentDetails(req.params.id);
 
     console.log("tenant", tenant);
-    console.log("payment", payment);
-    console.log("payment rent", payment.payment.rent);
+    console.log("payment", paymentDetails);
+    console.log("payment rent", paymentDetails.rent);
 
 
     const responseHtml = `
@@ -134,15 +134,15 @@ router.get('/current-payment/:id', async (req, res) => {
             </div>
             <div class="details">
                 <h2>Payment Information for ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-                <p>Rent: ৳${payment.payment.rent.toFixed(2)}</p>
-                <p>Electric Bill: ৳${payment.payment.electricBill.toFixed(2)}</p>
-                <p>Gas Bill: ৳${payment.payment.gasBill.toFixed(2)}</p>
-                <p>Water Bill: ৳${payment.payment.waterBill.toFixed(2)}</p>
-                <p>Other Bill: ৳${payment.payment.otherBill.toFixed(2)}</p>
-                <p>Total Payable: ৳${payment.payment.totalPayable.toFixed(2)}</p>
-                <p>Amount Paid: ৳${payment.payment.amountPaid.toFixed(2)}</p>
-                <p>Remaining: ৳${payment.payment.remaining.toFixed(2)}</p>
-                <p>Is Paid: <span class="${payment.payment.isPaid ? 'is-paid' : 'not-paid'}">${payment.payment.isPaid ? 'Yes' : 'No'}</span></p>
+                <p>Rent: ৳${paymentDetails.rent.toFixed(2)}</p>
+                <p>Electric Bill: ৳${paymentDetails.electricBill.toFixed(2)}</p>
+                <p>Gas Bill: ৳${paymentDetails.gasBill.toFixed(2)}</p>
+                <p>Water Bill: ৳${paymentDetails.waterBill.toFixed(2)}</p>
+                <p>Other Bill: ৳${paymentDetails.otherBill.toFixed(2)}</p>
+                <p>Total Payable: ৳${paymentDetails.totalPayable.toFixed(2)}</p>
+                <p>Amount Paid: ৳${paymentDetails.amountPaid.toFixed(2)}</p>
+                <p>Remaining: ৳${paymentDetails.remaining.toFixed(2)}</p>
+                <p>Is Paid: <span class="${paymentDetails.isPaid ? 'is-paid' : 'not-paid'}">${paymentDetails.isPaid ? 'Yes' : 'No'}</span></p>
             </div>
             <footer>
                 <p>Thank you for using our services.</p>
